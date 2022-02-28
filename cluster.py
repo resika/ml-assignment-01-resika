@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 
 class cluster:
@@ -35,17 +35,5 @@ class cluster:
                 optimized = False
         return optimized
 
-    def scatter_plot(self):
-        cmap = plt.cm.get_cmap('hsv', len(self.centroids) + 1)
 
-        #Plot samples
-        for classification in self.classifications:
-            color = cmap(classification)
-            for featureset in self.classifications[classification]:
-                plt.scatter(featureset[0], featureset[1], marker="x", color=color, s=5, alpha=0.75, linewidths=5)
 
-        # Plot centroids
-        for centroid in self.centroids:
-            plt.scatter(self.centroids[centroid][0], self.centroids[centroid][1],
-                        marker="o", color="k", s=50, linewidths=5)
-        plt.show()
