@@ -1,7 +1,6 @@
 import numpy as np
 
 
-
 class cluster:
 
     def __init__(self, k: int = 5, max_iterations: int = 100, tol: float = 0.001):
