@@ -13,8 +13,6 @@ class kmeans_own(cluster):
         self.balanced = balanced
         self.ideal_cluster_size = None
 
-
-
     def fit(self, X:np.ndarray):
         self.initialize_centroids(X)
         self.labels = np.zeros(dtype=np.int32, shape=len(X)) # Labels
@@ -28,10 +26,6 @@ class kmeans_own(cluster):
             # Classify points into clusters according to minimum distance
             for j, featureset in enumerate(X):
                 distances = self.calculate_distance(featureset)
-                # classification = distances.index(sorted(distances)[0])
-                # classfication2 = distances.index(sorted(distances)[1])
-                # self.labels[j] = classification
-                # self.classifications[classification].append(featureset)
                 self.assign_to_clusters(distances, featureset, currentpoint_index=j)
 
             self._prev_centroids = dict(self.centroids)
@@ -42,12 +36,14 @@ class kmeans_own(cluster):
 
             #Check whether the centroids have not moved much
             optimized = self.check_convergence()
+
             # scatter_plot_cluster_2d(self.classifications, self.centroids) # Debugging
             data = list(self.centroids.values())
             centroid_array = np.array(data)
             if optimized:
                 return self.labels, centroid_array
 
+            # debug lines
             # self.print_cluster_size(i)
             # scatter_plot_cluster_2d(self.labels, centroid_array, X, title=f'Iteration: {i}')
 
@@ -90,7 +86,7 @@ class kmeans_own(cluster):
 class kmeans_sk(cluster):
     def __init__(self, k:int=5, max_iterations:int=100):
         super().__init__(k=k, max_iterations=max_iterations)
-        self.kmeans = KMeans(n_clusters=5, random_state=99, max_iter=self.max_iterations)
+        self.kmeans = KMeans(n_clusters=k, random_state=99, max_iter=self.max_iterations)
 
     def fit(self, X:list):
         self.kmeans.fit(X)
@@ -112,17 +108,6 @@ def scatter_plot_cluster_2d(classifications, centroids, X, title=''):
 def main():
     k=5
     X, cluster_assignments = make_blobs(n_samples=200, centers=k, cluster_std=0.50, random_state=0)
-
-    # #sklearn
-    # kmeans_sk_test = kmeans_sk(k, 100)
-    # labels, centroids = kmeans_sk_test.fit(X)
-    # scatter_plot_cluster_2d(labels, centroids, X)
-    #
-    # #own
-    # print("\nOwn k-means")
-    # kmeans_own_test = kmeans_own(k=k)
-    # labels, centroids = kmeans_own_test.fit(X)
-    # scatter_plot_cluster_2d(labels, centroids, X,  title="Own")
 
     print("\nOwn Balanced k-means")
     # own balanced
